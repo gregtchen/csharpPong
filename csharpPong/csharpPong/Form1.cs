@@ -18,6 +18,9 @@ namespace csharpPong
         Ball ball;
         Paddle paddle1;
         Paddle paddle2;
+
+        int player1 = 0;
+        int player2 = 0;
         public Form1()
         {
             InitializeComponent();
@@ -48,35 +51,34 @@ namespace csharpPong
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-            gfx.DrawString("score:", new Font("TimeNewRoman", 12), new SolidBrush(Color.Red), new Point(ClientSize.Width/2-10, 5));
+            gfx.Clear(BackColor);
+            gfx.DrawString($"p1: {player1} || p2: {player2}", new Font("TimeNewRoman", 12), new SolidBrush(Color.Red), new Point(ClientSize.Width/2-25, 5));
 
             ball.erase(gfx, BackColor);
             ball.move(ClientSize.Width, ClientSize.Height);
             ball.draw(gfx);
 
-            if (ball.hitbox.IntersectsWith(paddle1.hitbox) || ball.hitbox.IntersectsWith(paddle2.hitbox))
+            if (ball.hitbox.IntersectsWith(paddle1.hitbox))
             {
                 ball.reverseX();
-                if(ball.xspeed > 0)
-                {
-                    ball.xspeed += 5;
-                }
-                else
-                {
-                    ball.xspeed -= 5;
-                }
+                ball.xspeed += 5;
+                player1 += 1;
+            }
+            if (ball.hitbox.IntersectsWith(paddle2.hitbox)){
+                ball.reverseX();
+                ball.xspeed += -5;
+                player2 += 1;
             }
             if(ball.X < 0)
             {
                 endGame();
-                MessageBox.Show("Player 2 Wins!");
+                MessageBox.Show($"Player 2 Wins with a score of {player2}!");
                 
             }
             if(ball.X + ball.Size > pictureBox1.Width)
             {
                 endGame();
-                MessageBox.Show("Player 1 Wins!");
+                MessageBox.Show($"Player 1 Win swith a score of {player1}!");
                 
             }
 
