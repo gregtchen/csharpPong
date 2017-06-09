@@ -58,7 +58,14 @@ namespace csharpPong
             if (ball.hitbox.IntersectsWith(paddle1.hitbox) || ball.hitbox.IntersectsWith(paddle2.hitbox))
             {
                 ball.reverseX();
-                
+                if(ball.xspeed > 0)
+                {
+                    ball.xspeed += 5;
+                }
+                else
+                {
+                    ball.xspeed -= 5;
+                }
             }
             if(ball.X < 0)
             {
@@ -113,9 +120,7 @@ namespace csharpPong
         public void endGame()
         {
             timer1.Stop();
-            ball = null;
-            paddle1 = null;
-            paddle2 = null;
+            gfx.Clear(BackColor);
         }
     }
 }
